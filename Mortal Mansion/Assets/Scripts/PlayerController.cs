@@ -7,6 +7,7 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour
 {
     [SerializeField] public GameObject player;
+    [SerializeField] public Camera camera;
     [SerializeField] public float speedBase;
     [SerializeField] public float visionBase;
     [SerializeField] public float sensingBase;
@@ -21,12 +22,19 @@ public class PlayerController : MonoBehaviour
     private float verticalInput, horizontalInput;
     private Vector3 newPosition;
 
+    private float cameraZ;
+
 
     // Start is called before the first frame update
     void Start()
     {
         movement = Vector3.zero;
+
         speedTotal = speedBase;
+
+        newPosition = player.transform.position;
+
+        cameraZ = camera.transform.position.z;
     }
 
     // Update is called once per frame
@@ -43,8 +51,10 @@ public class PlayerController : MonoBehaviour
         movement.y = verticalInput*speedTotal*Time.deltaTime;
 
         newPosition = player.transform.position + movement; 
-        
         player.transform.position = newPosition;
+
+        newPosition.z = cameraZ;
+        camera.transform.position = newPosition;
     }
 
     public void updateSpeed(float speedBoost){
