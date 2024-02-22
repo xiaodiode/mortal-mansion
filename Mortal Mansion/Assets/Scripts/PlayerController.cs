@@ -58,11 +58,10 @@ public class PlayerController : MonoBehaviour
         movement.Normalize(); 
         
         rb.velocity = new Vector2(movement.x, movement.y);
-        // newPosition = transform.position;
-
-        // newPosition.z = cameraZ;
-        // playerCamera.transform.position = newPosition; 
         
+        newPosition = transform.position;
+        newPosition.z = cameraZ;
+        playerCamera.transform.position = newPosition; 
         
     }
 
