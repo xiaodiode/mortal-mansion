@@ -21,7 +21,7 @@ public class PlayerController : MonoBehaviour
 
 
     private float verticalInput, horizontalInput;
-    private Vector3 newPosition;
+    private Vector3 cameraPosition;
 
     private float cameraZ;
 
@@ -45,23 +45,26 @@ public class PlayerController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        movePlayer();
+        move();
     }
 
-    private void movePlayer(){
+    private void move(){
         verticalInput = Input.GetAxis("Vertical");
         horizontalInput = Input.GetAxis("Horizontal");
 
-        movement.x = horizontalInput*speedTotal*Time.deltaTime;
-        movement.y = verticalInput*speedTotal*Time.deltaTime;
+        movement.x = horizontalInput;
+        movement.y = verticalInput;
 
-        movement.Normalize(); 
+        if(movement.magnitude > 1.0f){
+            movement.Normalize();     
+        }
         
         rb.velocity = new Vector2(movement.x, movement.y);
         
-        newPosition = transform.position;
-        newPosition.z = cameraZ;
-        playerCamera.transform.position = newPosition; 
+        // camera always focuses on player
+        cameraPosition = transform.position;
+        cameraPosition.z = cameraZ;
+        playerCamera.transform.position = cameraPosition; 
         
     }
 

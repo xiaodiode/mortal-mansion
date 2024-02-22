@@ -224,7 +224,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rb: {fileID: 265838581}
   playerCamera: {fileID: 519420031}
-  speedBase: 2
+  speedBase: 5
   visionBase: 0
   sensingBase: 0
   movement: {x: 0, y: 0}
@@ -292,7 +292,7 @@ Rigidbody2D:
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
-  m_Constraints: 0
+  m_Constraints: 4
 --- !u!1 &519420028
 GameObject:
   m_ObjectHideFlags: 0
