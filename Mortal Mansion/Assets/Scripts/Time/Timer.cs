@@ -49,38 +49,26 @@ public class Timer : MonoBehaviour
     }
 
     public void updateTimerUI(){
-        if(countDown){
-            secondsPassed = totalSeconds - (Mathf.FloorToInt(Time.time) - secondsStarted);
-            seconds = secondsPassed % 60;
-            minutes = (secondsPassed/60) % 60;
-            if(minutes > 9){
-                leadingZeroM = "";
-            }
-            else{
-                leadingZeroM = "0";
-            }
-            if(seconds > 9){
-                leadingZeroS = ":";
-            }
-            else{
-                leadingZeroS = ":0";
-            }
-            if(secondsPassed == 0){
-                // levelClear = true;
-                // if(player.selectedLevel == player.levelsUnlocked){
-                //     gemController.enableGemPopup("level");
-                //     if(player.selectedLevel != 101)
-                //         player.levelsUnlocked+=1;
-                // }
-                // gameManager.gameOver();
-                dayController.switchCycles();
-                resetTimer();
-            }
-            timeText = leadingZeroM + minutes.ToString() + leadingZeroS + seconds.ToString();
-            
-        }
+        secondsPassed = totalSeconds - (Mathf.FloorToInt(Time.time) - secondsStarted);
+        timeText = getTimeText(secondsPassed);
         
         time.text = timeText;
+        
+        if(secondsPassed == 0){
+            // levelClear = true;
+            // if(player.selectedLevel == player.levelsUnlocked){
+            //     gemController.enableGemPopup("level");
+            //     if(player.selectedLevel != 101)
+            //         player.levelsUnlocked+=1;
+            // }
+            // gameManager.gameOver();
+            dayController.switchCycles();
+            resetTimer();
+        }
+
+        
+        
+        
     }
 
     public void increaseTime(){
@@ -108,14 +96,40 @@ public class Timer : MonoBehaviour
         else{
             totalSeconds = currDayTime;
         }
-    }
 
+        Debug.Log("Total seconds from reset: " + totalSeconds);
+
+        time.text = getTimeText(totalSeconds);
+
+        Debug.Log("time.text should be updated to : " + time.text);
+    }
 
     public int getTime(){
         return Mathf.FloorToInt(Time.time);
     }
     public int getGameTime(){
         return secondsPassed;
+    }
+
+    private string getTimeText(int timeSeconds){
+        seconds = timeSeconds % 60;
+        minutes = (timeSeconds/60) % 60;
+        if(minutes > 9){
+            leadingZeroM = "";
+        }
+        else{
+            leadingZeroM = "0";
+        }
+        if(seconds > 9){
+            leadingZeroS = ":";
+        }
+        else{
+            leadingZeroS = ":0";
+        }
+
+        timeText = leadingZeroM + minutes.ToString() + leadingZeroS + seconds.ToString();
+
+        return timeText;
     }
 
     
