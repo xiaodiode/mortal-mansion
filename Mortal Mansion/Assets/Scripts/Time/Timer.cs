@@ -16,7 +16,7 @@ public class Timer : MonoBehaviour
     [SerializeField] private int totalSeconds;
 
     [Header("UI Timer")]
-    [SerializeField] private TextMeshProUGUI time;
+    [SerializeField] private TextMeshProUGUI timeUI;
 
     private string leadingZeroH, leadingZeroM, leadingZeroS;
     private string timeText = "00:00:00";
@@ -51,8 +51,8 @@ public class Timer : MonoBehaviour
     public void updateTimerUI(){
         secondsPassed = totalSeconds - (Mathf.FloorToInt(Time.time) - secondsStarted);
         timeText = getTimeText(secondsPassed);
-        
-        time.text = timeText;
+
+        timeUI.text = timeText;
         
         if(secondsPassed == 0){
             // levelClear = true;
@@ -97,11 +97,11 @@ public class Timer : MonoBehaviour
             totalSeconds = currDayTime;
         }
 
-        Debug.Log("Total seconds from reset: " + totalSeconds);
+        // Debug.Log("Total seconds from reset: " + totalSeconds);
 
-        time.text = getTimeText(totalSeconds);
+        timeUI.text = getTimeText(totalSeconds);
 
-        Debug.Log("time.text should be updated to : " + time.text);
+        // Debug.Log("time.text should be updated to : " + timeUI.text);
     }
 
     public int getTime(){
