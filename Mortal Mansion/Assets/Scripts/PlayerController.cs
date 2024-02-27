@@ -59,7 +59,7 @@ public class PlayerController : MonoBehaviour
             movement.Normalize();     
         }
         
-        rb.velocity = new Vector2(movement.x, movement.y);
+        rb.velocity = new Vector2(movement.x*speedTotal, movement.y*speedTotal);
         
         // camera always focuses on player
         cameraPosition = transform.position;
