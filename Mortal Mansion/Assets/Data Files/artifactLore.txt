@@ -1,0 +1,6 @@
+writer Martha
+content Martha's lore is placed here and now I'm just writing random stuff to fill in space to make sure this code works hahahahaaha
+writer Bob 
+content Bob's lore is placed here and now this text will be short for testing
+writer Sally 
+content Sally's lore is placed here and I don't know what to type anymore I'm running out of ideas please help me
