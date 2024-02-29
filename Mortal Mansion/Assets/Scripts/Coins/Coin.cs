@@ -7,12 +7,17 @@ public class Coins : MonoBehaviour
 {
     [SerializeField] private GameObject player;
     [SerializeField] private CoinController coinController;
+    [SerializeField] private SpriteRenderer sprite;
+
+    [Header("Coin Audio")]
+    [SerializeField] private AudioSource source;
+    [SerializeField] private AudioClip coinSound; 
     
     
     // Start is called before the first frame update
     void Start()
     {
-        
+        source.clip = coinSound;
 
     }
 
@@ -25,8 +30,18 @@ public class Coins : MonoBehaviour
     void OnTriggerEnter2D(Collider2D collision){
         if(collision.gameObject == player){
             coinController.coinCollected();
-            Destroy(gameObject);
+            source.Play();
+            sprite.enabled = false;
+            StartCoroutine(playSound());
         }
+    }
+
+    private IEnumerator playSound(){
+        while(source.isPlaying){
+            yield return null;
+        }
+        Destroy(gameObject);
+        
     }
 
     
