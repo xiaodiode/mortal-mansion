@@ -6,10 +6,14 @@ using UnityEngine.AI;
 
 public class Room : MonoBehaviour
 {
-    [SerializeField] public NavMeshModifier walkableNavMesh;
+    [SerializeField] public NavMeshModifier floorNavMesh;
     [SerializeField] public NavMeshModifier obstacleNavMesh;
+    [SerializeField] public NavMeshModifier doorNavMesh;
     [SerializeField] public NavMeshAgent ghost;
     [SerializeField] public NavMeshSurface surface;
+
+    
+
     
     // Start is called before the first frame update
     void Start()
@@ -26,4 +30,6 @@ public class Room : MonoBehaviour
     public void setupRoom(){
         // walkableNavMesh.
     }
+
+    
 }
