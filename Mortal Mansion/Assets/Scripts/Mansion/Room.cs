@@ -6,6 +6,7 @@ using UnityEngine.AI;
 
 public class Room : MonoBehaviour
 {
+    [SerializeField] public PlayerController player;
     [SerializeField] public NavMeshModifier floorNavMesh;
     [SerializeField] public NavMeshModifier obstacleNavMesh;
     [SerializeField] public NavMeshModifier doorNavMesh;
@@ -31,5 +32,5 @@ public class Room : MonoBehaviour
         // walkableNavMesh.
     }
 
-    
+
 }
