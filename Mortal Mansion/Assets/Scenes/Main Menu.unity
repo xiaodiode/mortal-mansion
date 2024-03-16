@@ -1308,7 +1308,7 @@ GameObject:
   - component: {fileID: 1119113088}
   - component: {fileID: 1119113087}
   m_Layer: 0
-  m_Name: Collection Icon
+  m_Name: Collections Icon
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1772,7 +1772,7 @@ GameObject:
   - component: {fileID: 1725753212}
   - component: {fileID: 1725753211}
   m_Layer: 0
-  m_Name: Text
+  m_Name: Collections Text
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1817,7 +1817,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: COLLECTION
+  m_text: COLLECTIONS
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 25e25d1a9fc4942409b46a43b01455dd, type: 2}
   m_sharedMaterial: {fileID: -4567445627608027026, guid: 25e25d1a9fc4942409b46a43b01455dd, type: 2}
@@ -1854,7 +1854,7 @@ MonoBehaviour:
   m_HorizontalAlignment: 1
   m_VerticalAlignment: 512
   m_textAlignment: 65535
-  m_characterSpacing: 19.8
+  m_characterSpacing: 4.08
   m_wordSpacing: 0
   m_lineSpacing: 0
   m_lineSpacingMax: 0
