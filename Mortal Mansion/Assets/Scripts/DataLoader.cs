@@ -3,19 +3,25 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.IO;
 using UnityEditor.Build.Content;
+using Unity.VisualScripting;
 
 public class DataLoader : MonoBehaviour
 {
     [Header("Text Files")]
     [SerializeField] private TextAsset artifactText;
+    [SerializeField] private TextAsset cinemaText;
 
 
     [Header("Data Structures")]
 
     [Space(10)]
-    [Header("Lore")]
+    [Header("Artifacts")]
     [SerializeField] public bool artifactDataReady = false;
     [SerializeField] public Dictionary<string, string> artifactLore = new();
+
+    [Header("Cinema")]
+    [SerializeField] public bool cinemaDataReady = false;
+    [SerializeField] public List<string> cinemaLore = new();
 
 
     private StringReader fileReader;
@@ -27,6 +33,7 @@ public class DataLoader : MonoBehaviour
     void Start()
     {
         parseArtifactData();
+        parseCinemaData();
     }
 
     // Update is called once per frame
@@ -59,6 +66,32 @@ public class DataLoader : MonoBehaviour
         debugDictionary(false, null, artifactLore);
 
         artifactDataReady = true;
+    }
+
+    private void parseCinemaData(){
+        fileReader = new StringReader(cinemaText.text);
+
+        while((fileLine = fileReader.ReadLine()) != null){
+
+            if(fileLine.Contains("cinema")){
+                // Debug.Log("fileLine: " + fileLine);
+                continue;
+            }
+            else{
+                // Debug.Log("fileLine: " + fileLine);
+                cinemaLore.Add(fileLine);
+            }
+
+        }
+
+        // int count = 1;
+
+        // foreach(string val in cinemaLore){
+        //     Debug.Log("scene " + count + ": " + val);
+        //     count++;
+        // }
+
+        cinemaDataReady = true;
     }
 
     private void debugDictionary(bool valIsList, Dictionary<string, List<string>> dictWithList, Dictionary<string, string> dictWithString){
