@@ -961,17 +961,21 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   rawImage: {fileID: 1326350351}
   baseWidth: 1920
-  currWidth: 0
-  baseSceneTime: 3
   scenes:
   - {fileID: 2800000, guid: a4e0320f8d8fc17499ff7d21c61917ff, type: 3}
   - {fileID: 2800000, guid: 8b2574a889a81824bad52add32e6b6c2, type: 3}
   - {fileID: 2800000, guid: 57e2a948f56f5ff4babfeb7a1a683c47, type: 3}
   - {fileID: 2800000, guid: 0d2829ef9920c314ab4a4f3b12d3f3f4, type: 3}
-  moveTimes: []
   sceneWidths: []
-  transitionTime: 1
   currSceneNum: 0
+  volume: {fileID: 2017022936}
+  vignette: {fileID: 0}
+  maxVignette: 0.6
+  minVignette: 0.12
+  fadeTime: 1.25
+  baseSceneTime: 3
+  moveTimes: []
+  transitionTime: 1
   data: {fileID: 150293314}
   cinemaText: {fileID: 0}
   sentenceDelay: 0.1

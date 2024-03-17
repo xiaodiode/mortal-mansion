@@ -18,16 +18,15 @@ public class Timer : MonoBehaviour
     [Header("UI Timer")]
     [SerializeField] private TextMeshProUGUI timeUI;
 
-    private string leadingZeroH, leadingZeroM, leadingZeroS;
+    private string leadingZeroM, leadingZeroS;
     private string timeText = "00:00:00";
     private bool countDown = false;
-    private int hours, minutes, seconds;
+    private int minutes, seconds;
     private int secondsStarted, secondsPassed;
     
     // Start is called before the first frame update
     void Start()
     {
-        leadingZeroH = "0";
         leadingZeroM = "0";
         leadingZeroS = "0";
 
