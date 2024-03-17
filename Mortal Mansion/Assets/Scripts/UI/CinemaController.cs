@@ -20,10 +20,9 @@ public class CinemaController : MonoBehaviour
 
     [Header("Cinema Animation Effects")]
     [SerializeField] private Volume volume;
-    [SerializeField] private Vignette vignette;
     [SerializeField] [Range(0.5f, 1f)] private float maxVignette;
     [SerializeField] [Range(0, 0.49f)] private float minVignette;
-    [SerializeField] private float fadeTime;
+    [SerializeField] private float fadePercentTime;
     [SerializeField] private float baseSceneTime;
     [SerializeField] private List<float> moveTimes = new();
     [SerializeField] private float transitionTime;
@@ -37,7 +36,8 @@ public class CinemaController : MonoBehaviour
     private string punctuation = ".?!";
     private bool setupReady, updateSceneReady, transitionReady;
     private Vector2 newWidth;
-    private Vector2 currPos, targetPos;
+    private Vector2 targetPos;
+    private Vignette vignette;
 
     // Start is called before the first frame update
     void Start()
@@ -48,7 +48,7 @@ public class CinemaController : MonoBehaviour
         updateSceneReady = false;
         transitionReady = false;
 
-        volume.profile.TryGet(out Vignette vignette);
+        volume.profile.TryGet(out vignette);
         
         vignette.intensity.Override(maxVignette);
         
@@ -72,8 +72,6 @@ public class CinemaController : MonoBehaviour
             yield return null;
         }
 
-        
-
         for(int i=0; i<scenes.Count; i++){
             updateSceneReady = false;
             transitionReady = false;
@@ -95,9 +93,10 @@ public class CinemaController : MonoBehaviour
     }
 
     private IEnumerator updateScene(Texture2D background, float sceneWidth, float moveTime){
-        volume.profile.TryGet(out Vignette vignette);
+        // volume.profile.TryGet(out Vignette vignette);
 
         float elapsedTime = 0;
+        float fadeTime = moveTime*fadePercentTime;
 
         // volume.profile.TryGet(out Vignette vignette);
 
@@ -113,11 +112,13 @@ public class CinemaController : MonoBehaviour
         targetPos = Vector2.zero;
         targetPos.x = baseWidth - sceneWidth;
 
+
+
         // moving from the leftmost edge of the panoramic scene to the rightmost edge within moveTime
-        while(elapsedTime < moveTime){
+        while(elapsedTime <= moveTime){
 
             // fading into new scene
-            if(elapsedTime < fadeTime){
+            if(elapsedTime <= fadeTime){
                 vignette.intensity.Override(Mathf.Lerp(maxVignette, minVignette, elapsedTime/fadeTime));
             }
 
