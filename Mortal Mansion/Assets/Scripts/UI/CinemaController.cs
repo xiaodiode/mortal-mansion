@@ -5,9 +5,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Rendering.Universal;
-using Unity.VisualScripting;
 using UnityEngine.Rendering;
-using System.Runtime.CompilerServices;
 
 public class CinemaController : MonoBehaviour
 {
@@ -53,8 +51,6 @@ public class CinemaController : MonoBehaviour
         vignette.intensity.Override(maxVignette);
         
 
-        
-
         StartCoroutine(playCinema());
 
     }
@@ -89,7 +85,7 @@ public class CinemaController : MonoBehaviour
             }
         }
 
-        yield return null;
+        // yield return null;
     }
 
     private IEnumerator updateScene(Texture2D background, float sceneWidth, float moveTime){
@@ -97,6 +93,8 @@ public class CinemaController : MonoBehaviour
 
         float elapsedTime = 0;
         float fadeTime = moveTime*fadePercentTime;
+
+        // float speed = baseWidth/baseSceneTime;
 
         // volume.profile.TryGet(out Vignette vignette);
 
@@ -129,6 +127,7 @@ public class CinemaController : MonoBehaviour
 
             // moving panoramic scene to the left
             rawImage.rectTransform.anchoredPosition = Vector2.Lerp(Vector2.zero, targetPos, elapsedTime/moveTime);
+            // rawImage.rectTransform.anchoredPosition = Vector2.MoveTowards(rawImage.rectTransform.anchoredPosition, targetPos, speed*Time.deltaTime);
             
             
             elapsedTime += Time.deltaTime;
@@ -155,20 +154,22 @@ public class CinemaController : MonoBehaviour
         int scriptLength;
         int sentenceNum;
 
-        float printDelay, totalDelay;
+        float printDelay;
         float newWidth;
 
         for(int i=0; i<scenes.Count; i++){
             scriptLength = data.cinemaLore[i].Length;
             sentenceNum = countSentences(data.cinemaLore[i]);
 
-            printDelay = scriptLength*charDelay + sentenceNum*sentenceDelay;
-            totalDelay = printDelay + baseSceneTime;
+            printDelay = Mathf.Max(scriptLength*charDelay + sentenceNum*sentenceDelay, baseSceneTime);
+            // totalDelay = printDelay + baseSceneTime;
 
-            moveTimes.Add(totalDelay);
+            // moveTimes.Add(totalDelay);
+            moveTimes.Add(printDelay);
 
 
-            newWidth = (totalDelay/baseSceneTime) * baseWidth;
+            // newWidth = totalDelay * (baseWidth/baseSceneTime) * Time.deltaTime;
+            newWidth = Mathf.Max(printDelay * (baseWidth/baseSceneTime), baseWidth);
 
             sceneWidths.Add(newWidth);
         }
@@ -180,7 +181,7 @@ public class CinemaController : MonoBehaviour
         int count = 0; 
 
         foreach(char val in punctuation){
-            count += punctuation.Count(c => c == val);
+            count += script.Count(c => c == val);
         }
 
         return count;

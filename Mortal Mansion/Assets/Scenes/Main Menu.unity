@@ -464,6 +464,38 @@ Transform:
   - {fileID: 690115800}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &359920896
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 359920897}
+  m_Layer: 0
+  m_Name: UI
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &359920897
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 359920896}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.50625944, y: 0.66097665, z: 80.345726}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 503477926}
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &413639641
 GameObject:
   m_ObjectHideFlags: 0
@@ -778,8 +810,8 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 503477922}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: -80.345726}
   m_LocalScale: {x: 0, y: 0, z: 0}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -788,11 +820,11 @@ RectTransform:
   - {fileID: 956131763}
   - {fileID: 413639642}
   - {fileID: 1494534201}
-  m_Father: {fileID: 0}
+  m_Father: {fileID: 359920897}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: -0.50625944, y: -0.66097665}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
 --- !u!1 &634520255
@@ -972,13 +1004,13 @@ MonoBehaviour:
   maxVignette: 0.6
   minVignette: 0.12
   fadePercentTime: 0.1
-  baseSceneTime: 3
+  baseSceneTime: 8
   moveTimes: []
   transitionTime: 1
   data: {fileID: 150293314}
   cinemaText: {fileID: 0}
-  sentenceDelay: 0.1
-  charDelay: 0.01
+  sentenceDelay: 1.5
+  charDelay: 0.02
 --- !u!1 &869063984
 GameObject:
   m_ObjectHideFlags: 0
@@ -2631,8 +2663,8 @@ SceneRoots:
   m_Roots:
   - {fileID: 141436082}
   - {fileID: 1317231701}
-  - {fileID: 503477926}
-  - {fileID: 2057308295}
   - {fileID: 1275751133}
   - {fileID: 2017022937}
   - {fileID: 332412060}
+  - {fileID: 2057308295}
+  - {fileID: 359920897}
