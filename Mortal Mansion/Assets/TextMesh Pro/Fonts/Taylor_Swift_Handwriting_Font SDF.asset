@@ -73,9 +73,9 @@ Material:
     - _OutlineWidth: 0
     - _PerspectiveFilter: 0.875
     - _Reflectivity: 10
-    - _ScaleRatioA: 1
-    - _ScaleRatioB: 1
-    - _ScaleRatioC: 1
+    - _ScaleRatioA: 0.8333333
+    - _ScaleRatioB: 0.6770833
+    - _ScaleRatioC: 0.6770833
     - _ScaleX: 1
     - _ScaleY: 1
     - _ShaderFlags: 0
@@ -95,7 +95,7 @@ Material:
     - _VertexOffsetX: 0
     - _VertexOffsetY: 0
     - _WeightBold: 0.75
-    - _WeightNormal: 0
+    - _WeightNormal: -0.67
     m_Colors:
     - _ClipRect: {r: -32767, g: -32767, b: 32767, a: 32767}
     - _EnvMatrixRotation: {r: 0, g: 0, b: 0, a: 0}
@@ -120,9 +120,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 71c1514a6bd24e1e882cebbe1904ce04, type: 3}
   m_Name: Taylor_Swift_Handwriting_Font SDF
   m_EditorClassIdentifier: 
-  hashCode: 0
+  hashCode: 1259497924
   material: {fileID: -5538248807187858399}
-  materialHashCode: 0
+  materialHashCode: -1160578460
   m_Version: 1.1.0
   m_SourceFontFileGUID: 61ba156b4439ea94498f9a0ff5ddc182
   m_SourceFontFile_EditorRef: {fileID: 12800000, guid: 61ba156b4439ea94498f9a0ff5ddc182, type: 3}
@@ -133,7 +133,7 @@ MonoBehaviour:
     m_FamilyName: Taylor_Swift_Handwriting_Font
     m_StyleName: Medium
     m_PointSize: 82
-    m_Scale: 1
+    m_Scale: 1.75
     m_UnitsPerEM: 1000
     m_LineHeight: 76.424
     m_AscentLine: 56.006
@@ -1520,7 +1520,7 @@ MonoBehaviour:
   - m_ElementType: 1
     m_Unicode: 32
     m_GlyphIndex: 3
-    m_Scale: 1
+    m_Scale: 0.6
   - m_ElementType: 1
     m_Unicode: 33
     m_GlyphIndex: 4
@@ -2537,7 +2537,7 @@ MonoBehaviour:
   - regularTypeface: {fileID: 0}
     italicTypeface: {fileID: 0}
   fontWeights: []
-  normalStyle: 0
+  normalStyle: -0.67
   normalSpacingOffset: 0
   boldStyle: 0.75
   boldSpacing: 7
