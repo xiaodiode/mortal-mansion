@@ -9,6 +9,8 @@ using UnityEngine.Rendering;
 
 public class CinemaController : MonoBehaviour
 {
+    [SerializeField] private GameManager gameManager;
+
     [Header("Cinema Structure")]
     [SerializeField] private RawImage rawImage;
     [SerializeField] private float baseWidth;
@@ -27,15 +29,18 @@ public class CinemaController : MonoBehaviour
 
     [Header("Cinema Lore")]
     [SerializeField] private DataLoader data;
+    [SerializeField] private TextPrinter textPrinter;
     [SerializeField] private TextMeshProUGUI cinemaText;
     [SerializeField] private float sentenceDelay;
     [SerializeField] private float charDelay;
+    [SerializeField] public bool cinemaFinished;
 
     private string punctuation = ".?!";
     private bool setupReady, updateSceneReady, transitionReady;
     private Vector2 newWidth;
     private Vector2 targetPos;
     private Vignette vignette;
+
 
     // Start is called before the first frame update
     void Start()
@@ -45,6 +50,7 @@ public class CinemaController : MonoBehaviour
         setupReady = false;
         updateSceneReady = false;
         transitionReady = false;
+        cinemaFinished = false;
 
         volume.profile.TryGet(out vignette);
         
@@ -73,6 +79,7 @@ public class CinemaController : MonoBehaviour
             transitionReady = false;
 
             StartCoroutine(updateScene(scenes[i], sceneWidths[i], moveTimes[i]));
+            StartCoroutine(textPrinter.printToMonologue(data.cinemaLore[i], charDelay, sentenceDelay, cinemaText));
 
             while(!updateSceneReady){
                 yield return null;
@@ -85,7 +92,7 @@ public class CinemaController : MonoBehaviour
             }
         }
 
-        // yield return null;
+        gameManager.cinemaFinished();
     }
 
     private IEnumerator updateScene(Texture2D background, float sceneWidth, float moveTime){
