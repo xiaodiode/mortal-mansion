@@ -1520,7 +1520,7 @@ MonoBehaviour:
   - m_ElementType: 1
     m_Unicode: 32
     m_GlyphIndex: 3
-    m_Scale: 0.6
+    m_Scale: 0.96
   - m_ElementType: 1
     m_Unicode: 33
     m_GlyphIndex: 4

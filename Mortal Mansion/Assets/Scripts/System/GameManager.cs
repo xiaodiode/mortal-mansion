@@ -3,36 +3,51 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Rendering.Universal;
 using UnityEngine.Rendering;
+using TMPro;
+using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
-{
-    [Header("Main Menu")]
-    [SerializeField] private List<GameObject> mainMenuObjects;
-
-    [Header("Cinema")]
-    [SerializeField] private List<GameObject> cinemaObjects;
+{   
 
     [Header("System UI")]
     [SerializeField] private List<GameObject> systemUIObjects;
 
+    // cinema
+    [SerializeField] private List<GameObject> cinemaObjects;
+
+    // main menu
+    [SerializeField] private List<GameObject> mainMenuObjects;
+    [SerializeField] private List<TextMeshProUGUI> mainMenuTexts;
+    [SerializeField] private List<Image> mainMenuIcons;
+    [SerializeField] private float mm_textFadeTime;
+    [SerializeField] private float mm_textMaxAlpha, mm_textMinAlpha;
+
+    // post processing
+    [SerializeField] private Volume systemVolume;
+    [SerializeField] public Vignette systemVignette;
+
+
     [Header("Gameplay")]
     [SerializeField] private List<GameObject> gameplayObjects;
+    [SerializeField] private Volume gameVolume;
+    [SerializeField] public Vignette gameVignette;
 
 
     [Header("Systems")]
+    [SerializeField] private PostProcessing effects;
+    [SerializeField] private UIController UI;
     [SerializeField] private CinemaController cinemaController;
-    [SerializeField] private MouseController mouseController;
-
-    [SerializeField] private Volume volume;
-    private Vignette vignette;
-
-    [SerializeField] private float vignetteMM;
+    [SerializeField] public MouseController mouseController;
 
     // Start is called before the first frame update
     void Start()
     {
         
-        // setActive(cinemaObjects, true);
+        gameVolume.profile.TryGet(out gameVignette);
+        systemVolume.profile.TryGet(out systemVignette);
+
+        PlayCinema();
+        // showMainMenu();
     }
 
     // Update is called once per frame
@@ -41,15 +56,28 @@ public class GameManager : MonoBehaviour
         
     }
 
-    public void cinemaFinished(){
+    private void PlayCinema(){
+
+        setActive(cinemaObjects, true);
+
+        setActive(mainMenuObjects, false);
+
+        setActive(gameplayObjects, false);
+
+        cinemaController.startCinema();
+    }
+
+    public void showMainMenu(){
+
+        cinemaController.resetCinema();
 
         setActive(cinemaObjects, false);
 
         setActive(mainMenuObjects, true);
-
-        volume.profile.TryGet(out vignette);
         
-        vignette.intensity.Override(vignetteMM);
+        StartCoroutine(effects.updateVignette(systemVignette, effects.mm_maxIntensity, effects.mm_minIntensity, effects.mm_vignDuration));
+
+        UI.fadeText(mainMenuTexts, mm_textMinAlpha, mm_textMaxAlpha, mm_textFadeTime);
     }
 
     public void setActive(List<GameObject> objects, bool active){
@@ -60,7 +88,9 @@ public class GameManager : MonoBehaviour
     }
 
     public void playGame(){
+
         setActive(systemUIObjects, false);
+
         setActive(gameplayObjects, true);
     }
 

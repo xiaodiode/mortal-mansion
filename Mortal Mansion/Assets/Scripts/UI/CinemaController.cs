@@ -16,12 +16,10 @@ public class CinemaController : MonoBehaviour
     [SerializeField] private float baseWidth;
     [SerializeField] private List<Texture2D> scenes = new();
     [SerializeField] private List<float> sceneWidths = new();
-    [SerializeField] private int currSceneNum;
 
     [Header("Cinema Animation Effects")]
+    [SerializeField] private PostProcessing effects;
     [SerializeField] private Volume volume;
-    [SerializeField] [Range(0.5f, 1f)] private float maxVignette;
-    [SerializeField] [Range(0, 0.49f)] private float minVignette;
     [SerializeField] private float fadePercentTime;
     [SerializeField] private float baseSceneTime;
     [SerializeField] private List<float> moveTimes = new();
@@ -35,29 +33,27 @@ public class CinemaController : MonoBehaviour
     [SerializeField] private float charDelay;
     [SerializeField] public bool cinemaFinished;
 
+    [Header("Cinema Skip Button")]
+    [SerializeField] private Button skipButton;
+    [SerializeField] private RawImage skipIcon;
+    [SerializeField] private float skipFadeTime;
+
+    private Color tempColor1 = new();
+    private Color tempColor2 = new();
+    private float zeroAlpha = 0.0f; private float maxSkipAlpha = 0.15f; private float maxTextAlpha = 0.8f;
+
     private string punctuation = ".?!";
     private bool setupReady, updateSceneReady, transitionReady;
     private Vector2 newWidth;
     private Vector2 targetPos;
-    private Vignette vignette;
+    private bool lockCinema;
 
 
     // Start is called before the first frame update
     void Start()
     {
-        currSceneNum = 0;
 
-        setupReady = false;
-        updateSceneReady = false;
-        transitionReady = false;
-        cinemaFinished = false;
-
-        volume.profile.TryGet(out vignette);
         
-        vignette.intensity.Override(maxVignette);
-        
-
-        StartCoroutine(playCinema());
 
     }
 
@@ -67,18 +63,129 @@ public class CinemaController : MonoBehaviour
         
     }
 
-    private IEnumerator playCinema(){
+    private void setupText(){
+        tempColor2 = cinemaText.color;
+        tempColor2.a = maxTextAlpha;
+
+        cinemaText.color = tempColor2;
+
+        cinemaText.text = "";
+    }
+
+    private IEnumerator showSkip(){
+
+        gameManager.mouseController.hideMouse(true);
+
+        // make skip button invisible and non-interactable
+        tempColor1 = skipIcon.color;
+        tempColor1.a = zeroAlpha;
+        
+        skipIcon.color = tempColor1;
+
+        skipButton.interactable = false;
+
+        yield return new WaitForSeconds(4);
+
+        skipButton.interactable = true;
+
+        float elapsedTime = 0;
+
+        while(elapsedTime <= skipFadeTime){
+            tempColor1.a = Mathf.Lerp(zeroAlpha, maxSkipAlpha, elapsedTime/skipFadeTime);
+
+            skipIcon.color = tempColor1;
+
+            elapsedTime += Time.deltaTime;
+
+            yield return null;
+        }
+
+        gameManager.mouseController.hideMouse(false);
+    }
+
+    public void pressSkip(){
+
+        StartCoroutine(actuallySkip());
+    }
+    public IEnumerator actuallySkip(){
+        // bool fadeReady = false; 
+
+        skipButton.interactable = false;
+
+        float elapsedTime = 0;
+        float currIntensity = gameManager.systemVignette.intensity.value;
+
+        // fade out cinema text and skip button text
+        while(elapsedTime <= effects.cin_vignDuration){
+
+            if(elapsedTime < skipFadeTime){
+                tempColor1.a = Mathf.Lerp(maxSkipAlpha, zeroAlpha, elapsedTime/skipFadeTime);
+                tempColor2.a = Mathf.Lerp(maxTextAlpha, zeroAlpha, elapsedTime/skipFadeTime);
+
+            }
+            if(elapsedTime < effects.cin_vignDuration){
+                gameManager.systemVignette.intensity.Override(Mathf.Lerp(currIntensity, effects.cin_maxIntensity, elapsedTime/effects.cin_vignDuration));
+            }
+            
+            skipIcon.color = tempColor1;
+            cinemaText.color = tempColor2;
+
+            elapsedTime += Time.deltaTime;
+
+            yield return null;
+        }
+
+        lockCinema = true;
+        
+    }
+
+    public void startCinema(){
+        setupReady = false;
+        updateSceneReady = false;
+        transitionReady = false;
+        cinemaFinished = false;
+
+        lockCinema = false;
+
+        setupText();
+
+        effects.updateVignette(gameManager.systemVignette, effects.cin_maxIntensity);
+
+        StartCoroutine(showSkip());
+
         StartCoroutine(setupCinema());
+        StartCoroutine(playCinema());
+    }
+
+    public void resetCinema(){
+
+        rawImage.rectTransform.anchoredPosition = Vector2.zero;
+
+        updateSceneReady = false;
+        transitionReady = false;
+        cinemaFinished = false;
+        lockCinema = false;
+    }
+
+    private IEnumerator playCinema(){
 
         while(!setupReady){
             yield return null;
         }
 
         for(int i=0; i<scenes.Count; i++){
+
+            if(lockCinema){
+                break;
+            }
+
             updateSceneReady = false;
             transitionReady = false;
 
             StartCoroutine(updateScene(scenes[i], sceneWidths[i], moveTimes[i]));
+
+            yield return new WaitForSeconds(2);
+
             StartCoroutine(textPrinter.printToMonologue(data.cinemaLore[i], charDelay, sentenceDelay, cinemaText));
 
             while(!updateSceneReady){
@@ -92,18 +199,13 @@ public class CinemaController : MonoBehaviour
             }
         }
 
-        gameManager.cinemaFinished();
+        gameManager.showMainMenu();
     }
 
     private IEnumerator updateScene(Texture2D background, float sceneWidth, float moveTime){
-        // volume.profile.TryGet(out Vignette vignette);
 
         float elapsedTime = 0;
         float fadeTime = moveTime*fadePercentTime;
-
-        // float speed = baseWidth/baseSceneTime;
-
-        // volume.profile.TryGet(out Vignette vignette);
 
         // update current scene background
         rawImage.texture = background;
@@ -120,16 +222,16 @@ public class CinemaController : MonoBehaviour
 
 
         // moving from the leftmost edge of the panoramic scene to the rightmost edge within moveTime
-        while(elapsedTime <= moveTime){
+        while(elapsedTime <= moveTime && !lockCinema){
 
             // fading into new scene
             if(elapsedTime <= fadeTime){
-                vignette.intensity.Override(Mathf.Lerp(maxVignette, minVignette, elapsedTime/fadeTime));
+                gameManager.systemVignette.intensity.Override(Mathf.Lerp(effects.cin_maxIntensity, effects.cin_minIntensity, elapsedTime/fadeTime));
             }
 
             // fading out of scene near the end of movement
             else if(fadeTime > moveTime - elapsedTime){
-                vignette.intensity.Override(Mathf.Lerp(minVignette, maxVignette, (fadeTime - (moveTime - elapsedTime))/fadeTime));
+                gameManager.systemVignette.intensity.Override(Mathf.Lerp(effects.cin_minIntensity, effects.cin_maxIntensity, (fadeTime - (moveTime - elapsedTime))/fadeTime));
             }
 
             // moving panoramic scene to the left
@@ -146,11 +248,14 @@ public class CinemaController : MonoBehaviour
     }
 
     private IEnumerator transitionScene(){
-        rawImage.rectTransform.anchoredPosition = Vector2.zero;
+        // if(!lockCinema){
+            rawImage.rectTransform.anchoredPosition = Vector2.zero;
 
-        yield return new WaitForSeconds(transitionTime);    
+            yield return new WaitForSeconds(transitionTime);    
 
-        transitionReady = true;
+            transitionReady = true;    
+        // }
+        
     }
 
     private IEnumerator setupCinema(){
