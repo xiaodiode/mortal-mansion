@@ -53,7 +53,7 @@ public class GameManager : MonoBehaviour
         systemVolume.profile.TryGet(out systemVignette);
 
         setupMainMenu();
-        PlayCinema();
+        playCinema();
         
         // showMainMenu();
     }
@@ -64,7 +64,7 @@ public class GameManager : MonoBehaviour
         
     }
 
-    private void PlayCinema(){
+    public void playCinema(){
 
         setActive(cinemaObjects, true);
 
