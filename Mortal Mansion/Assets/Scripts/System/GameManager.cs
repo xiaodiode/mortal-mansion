@@ -17,10 +17,16 @@ public class GameManager : MonoBehaviour
 
     // main menu
     [SerializeField] private List<GameObject> mainMenuObjects;
-    [SerializeField] private List<TextMeshProUGUI> mainMenuTexts;
+    [SerializeField] private List<TextMeshProUGUI> mainMenuTexts; 
+    [SerializeField] private List<float> mainMenuTextAlpha = new();
     [SerializeField] private List<Image> mainMenuIcons;
-    [SerializeField] private float mm_textFadeTime;
-    [SerializeField] private float mm_textMaxAlpha, mm_textMinAlpha;
+    [SerializeField] private List<float> mainMenuIconAlpha = new();
+    [SerializeField] private float mm_UIFadeTime;
+    [SerializeField] private float mm_UIMaxAlpha, mm_UIMinAlpha;
+    [SerializeField] private RectTransform mainMenuBG;
+    [SerializeField] private float mm_zoomTime;
+    [SerializeField] private float mm_zoomMin, mm_zoomMax;
+    [SerializeField] private bool mm_animReady = false;
 
     // post processing
     [SerializeField] private Volume systemVolume;
@@ -46,7 +52,9 @@ public class GameManager : MonoBehaviour
         gameVolume.profile.TryGet(out gameVignette);
         systemVolume.profile.TryGet(out systemVignette);
 
+        setupMainMenu();
         PlayCinema();
+        
         // showMainMenu();
     }
 
@@ -67,6 +75,16 @@ public class GameManager : MonoBehaviour
         cinemaController.startCinema();
     }
 
+    public void setupMainMenu(){
+        foreach(Image image in mainMenuIcons){
+            mainMenuIconAlpha.Add(image.color.a);
+        }
+
+        foreach(TextMeshProUGUI text in mainMenuTexts){
+            mainMenuTextAlpha.Add(text.color.a);
+        }
+    }
+
     public void showMainMenu(){
 
         cinemaController.resetCinema();
@@ -77,7 +95,38 @@ public class GameManager : MonoBehaviour
         
         StartCoroutine(effects.updateVignette(systemVignette, effects.mm_maxIntensity, effects.mm_minIntensity, effects.mm_vignDuration));
 
-        UI.fadeText(mainMenuTexts, mm_textMinAlpha, mm_textMaxAlpha, mm_textFadeTime);
+        for(int i=0; i < mainMenuTexts.Count; i++){
+            UI.fadeText(mainMenuTexts[i], mainMenuTextAlpha[i], mm_UIMaxAlpha, mm_UIFadeTime);
+        }
+
+        for(int i=0; i < mainMenuIcons.Count; i++){
+            UI.fadeImage(mainMenuIcons[i], mainMenuIconAlpha[i], mm_UIMaxAlpha, mm_UIFadeTime);
+        }
+    }
+
+    public IEnumerator hideMainMenu(){
+        for(int i=0; i < mainMenuTexts.Count; i++){
+            UI.fadeText(mainMenuTexts[i], mm_UIMaxAlpha, mainMenuTextAlpha[i], mm_UIFadeTime);
+        }
+
+        for(int i=0; i < mainMenuIcons.Count; i++){
+            UI.fadeImage(mainMenuIcons[i], mm_UIMaxAlpha, mainMenuIconAlpha[i], mm_UIFadeTime);
+        }
+
+        yield return new WaitForSeconds(mm_UIFadeTime);
+
+        UI.zoomGameObject(mainMenuBG, mm_zoomMin, mm_zoomMax, mm_zoomTime);
+
+        StartCoroutine(effects.updateVignette(systemVignette, effects.mm_minIntensity, effects.mm_maxIntensity, mm_zoomTime));
+
+        yield return new WaitForSeconds(mm_zoomTime);
+
+        mm_animReady = true;
+
+    }
+
+    public void resetMainMenu(){
+        mainMenuBG.localScale = Vector3.one;
     }
 
     public void setActive(List<GameObject> objects, bool active){
@@ -87,7 +136,19 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    public void playGame(){
+    public void pressPlay(){
+        StartCoroutine(playGame());
+    }
+
+    public IEnumerator playGame(){
+
+        StartCoroutine(hideMainMenu());
+
+        while(!mm_animReady){
+            yield return null;
+        }
+
+        resetMainMenu();
 
         setActive(systemUIObjects, false);
 
