@@ -18,7 +18,7 @@ public class MouseController : MonoBehaviour
     void Start()
     {
         isLocked = false;
-        mouseLightOn = true;
+        mouseLightOn = false;
 
         mouseScreen = Vector3.zero;
         mouseWorld = Vector3.zero;

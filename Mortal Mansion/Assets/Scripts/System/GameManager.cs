@@ -102,20 +102,22 @@ public class GameManager : MonoBehaviour
         for(int i=0; i < mainMenuIcons.Count; i++){
             UI.fadeImage(mainMenuIcons[i], mainMenuIconAlpha[i], mm_UIMaxAlpha, mm_UIFadeTime);
         }
+
+        mouseController.mouseLightOn = true;
     }
 
     public IEnumerator hideMainMenu(){
-        for(int i=0; i < mainMenuTexts.Count; i++){
-            UI.fadeText(mainMenuTexts[i], mm_UIMaxAlpha, mainMenuTextAlpha[i], mm_UIFadeTime);
-        }
+        // for(int i=0; i < mainMenuTexts.Count; i++){
+        //     UI.fadeText(mainMenuTexts[i], mm_UIMaxAlpha, mainMenuTextAlpha[i], mm_UIFadeTime);
+        // }
 
-        for(int i=0; i < mainMenuIcons.Count; i++){
-            UI.fadeImage(mainMenuIcons[i], mm_UIMaxAlpha, mainMenuIconAlpha[i], mm_UIFadeTime);
-        }
+        // for(int i=0; i < mainMenuIcons.Count; i++){
+        //     UI.fadeImage(mainMenuIcons[i], mm_UIMaxAlpha, mainMenuIconAlpha[i], mm_UIFadeTime);
+        // }
 
-        yield return new WaitForSeconds(mm_UIFadeTime);
+        // yield return new WaitForSeconds(mm_UIFadeTime);
 
-        UI.zoomGameObject(mainMenuBG, mm_zoomMin, mm_zoomMax, mm_zoomTime);
+        // UI.zoomGameObject(mainMenuBG, mm_zoomMin, mm_zoomMax, mm_zoomTime);
 
         StartCoroutine(effects.updateVignette(systemVignette, effects.mm_minIntensity, effects.mm_maxIntensity, mm_zoomTime));
 
@@ -147,6 +149,8 @@ public class GameManager : MonoBehaviour
         while(!mm_animReady){
             yield return null;
         }
+
+        mouseController.mouseLightOn = false;
 
         resetMainMenu();
 
