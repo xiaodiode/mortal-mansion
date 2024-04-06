@@ -5,21 +5,26 @@ using UnityEngine.Tilemaps;
 
 public class Floor : MonoBehaviour
 {
+    [SerializeField] public bool isBedroom;
     [SerializeField] public TilemapCollider2D floorCollider;
-    [SerializeField] public GameObject placeholder; 
+    [SerializeField] private Artifact artifact; 
+    [SerializeField] private GameObject ghost;
+    [SerializeField] private GameObject hidingSpot;
     Vector3 randomPoint = Vector3.zero;
 
     // Start is called before the first frame update
     void Start()
     {
-        // Debug.Log("the valid random point is: " + getRandomPoint());
-        // createObjectAtPoint();
+        setTargetPosition(artifact.width, artifact.height, artifact.sprite);
+        
+        Debug.Log("the valid random point is: " + randomPoint);
+
     }
 
-    void Awake(){
-        Debug.Log("the valid random point is: " + getRandomPoint());
-        createObjectAtPoint();
-    }
+    // void Awake(){
+    //     Debug.Log("the valid random point is: " + getRandomPoint());
+    //     createObjectAtPoint();
+    // }
 
     // Update is called once per frame
     void Update()
@@ -33,41 +38,21 @@ public class Floor : MonoBehaviour
         // }
     }
 
-    public Vector3 getRandomPoint(){
+    public void setTargetPosition(float targetWidth, float targetHeight, GameObject sprite){
         Bounds bounds = floorCollider.bounds;
-        bool validPoint = false;
 
-        Collider2D hitCollider;
+        randomPoint.x = Random.Range(bounds.min.x + targetWidth/2, bounds.max.x - targetWidth/2);
+        randomPoint.y = Random.Range(bounds.min.y + targetHeight/2, bounds.max.y - targetHeight/2);
 
-        // while(!validPoint){
-            randomPoint.x = Random.Range(bounds.min.x, bounds.max.x);
-            randomPoint.y = Random.Range(bounds.min.y, bounds.max.y);
+        Debug.Log("random point generated: " + randomPoint + " with x bounds between " + (bounds.min.x + targetWidth/2) + " and " + (bounds.max.x - targetWidth/2)
+                       + " and y bounds between " + (bounds.min.y + targetHeight/2) + " and " + (bounds.max.y - targetHeight/2) + ": " + randomPoint);
 
-            // Debug.Log("random point generated: " + randomPoint + " with x bounds between " + bounds.min.x + " and " + bounds.max.x
-            //            + " and y bounds between " + bounds.min.y + " and " + bounds.max.y + ": " + randomPoint);
-        
-            // hitCollider = Physics2D.OverlapPoint(randomPoint, floorCollider.gameObject.layer);
+        artifact.setPosition(randomPoint);
 
-            // if(hitCollider != null && hitCollider == floorCollider){
-            //     validPoint = true;
-            // }
-
-            // else{
-            //     validPoint = false;
-            // }
-
-            // Debug.Log("valid point? " + validPoint);
-
-        // }
-
-        return randomPoint;
-        
-    }
-
-    public void createObjectAtPoint(){
-        GameObject newObject = Instantiate(placeholder, Vector3.zero, Quaternion.identity);
+        GameObject newObject = Instantiate(sprite, Vector3.zero, Quaternion.identity);
         newObject.transform.parent = transform;
         randomPoint.z = transform.position.z;
         newObject.transform.position = randomPoint;
     }
+
 }
