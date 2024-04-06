@@ -8,7 +8,7 @@ public class Floor : MonoBehaviour
     [SerializeField] public bool isBedroom;
     [SerializeField] public TilemapCollider2D floorCollider;
     [SerializeField] private Artifact artifact; 
-    [SerializeField] private GameObject ghost;
+    [SerializeField] private NormGhostAI ghost;
     [SerializeField] private GameObject hidingSpot;
     Vector3 randomPoint = Vector3.zero;
 
@@ -20,11 +20,6 @@ public class Floor : MonoBehaviour
         Debug.Log("the valid random point is: " + randomPoint);
 
     }
-
-    // void Awake(){
-    //     Debug.Log("the valid random point is: " + getRandomPoint());
-    //     createObjectAtPoint();
-    // }
 
     // Update is called once per frame
     void Update()

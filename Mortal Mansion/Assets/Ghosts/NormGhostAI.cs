@@ -15,6 +15,7 @@ public class NormGhostAI : MonoBehaviour
 {
     [SerializeField] private NavMeshAgent ghostAgent;
     [SerializeField] private Transform player;
+    [SerializeField] private Vector3 spawnPosition;
     [SerializeField] public bool enableGhost;
 
     [SerializeField] public normGhostState currState {get; set;}
@@ -30,7 +31,12 @@ public class NormGhostAI : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+
       switch(currState){
+        case normGhostState.Idle:
+          Idle();
+          break;
+
         case normGhostState.Wandering:
           Wander();
           break;
@@ -43,10 +49,16 @@ public class NormGhostAI : MonoBehaviour
           Return();
           break;
       }
+
+      
+    }
+
+    public void Idle(){
+      enableGhost = false;
     }
 
     public void Wander(){
-
+      enableGhost = true;
     }
 
     public void Follow(){
@@ -54,6 +66,11 @@ public class NormGhostAI : MonoBehaviour
     }
 
     public void Return(){
-
+      if(ghostAgent.transform.position != spawnPosition){
+        ghostAgent.SetDestination(spawnPosition);
+      }
+      else{
+        currState = normGhostState.Idle;
+      }
     }
 }
