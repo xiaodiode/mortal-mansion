@@ -52,10 +52,12 @@ public class GameManager : MonoBehaviour
         gameVolume.profile.TryGet(out gameVignette);
         systemVolume.profile.TryGet(out systemVignette);
 
-        setupMainMenu();
-        playCinema();
+        // setupMainMenu();
+        // playCinema();
         
         // showMainMenu();
+
+        // playGame(); // debugging
     }
 
     // Update is called once per frame
