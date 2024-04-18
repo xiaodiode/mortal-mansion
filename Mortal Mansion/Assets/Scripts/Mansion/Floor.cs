@@ -80,35 +80,53 @@ public class Floor : MonoBehaviour
     }
 
     private void setGhost(){
+        // finding dimensions of ghost to prevent it from walking out of bounds
+        ghost.width = ghost.ghostCollider.bounds.size.x;
+        ghost.height = ghost.ghostCollider.bounds.size.y;
 
         // setting up ghost bounds
         Vector3 topLeft, topMid, topRight, 
             midLeft, midMid, midRight, 
             botLeft, botMid, botRight;
 
-        float Xmin, Xmax, Ymin, Ymax;
+        float Xmin, Xmax, Xcenter, 
+            Ymin, Ymax, Ycenter;
 
         Xmin = bounds.min.x + ghost.width;
         Xmax = bounds.max.x - ghost.width;
+        Xcenter = (Xmax - Xmin)/2 + Xmin;
+
         Ymin = bounds.min.y + ghost.height;
         Ymax = bounds.max.y - ghost.height;
-
-        ghost.width = ghost.ghostCollider.bounds.size.x;
-        ghost.height = ghost.ghostCollider.bounds.size.y;
+        Ycenter = (Ymax - Ymin)/2 + Ymin;
 
         topLeft.x = Xmin; topLeft.y = Ymax; topLeft.z = transform.position.z;
-        topMid.x = (Xmax - Xmin)/2; topMid.y = Ymax; topMid.z = transform.position.z;
+        topMid.x = Xcenter; topMid.y = Ymax; topMid.z = transform.position.z;
         topRight.x = Xmax; topRight.y = Ymax; topRight.z = transform.position.z;
 
-        midLeft.x = Xmin; midLeft.y = (Ymax - Ymin)/2; midLeft.z = transform.position.z;
-        midMid.x = (Xmax - Xmin)/2; midMid.y = (Ymax - Ymin)/2; midMid.z = transform.position.z;
-        midRight.x = Xmax; midRight.y = (Ymax - Ymin)/2; midRight.z = transform.position.z;
+        midLeft.x = Xmin; midLeft.y = Ycenter; midLeft.z = transform.position.z;
+        midMid.x = Xcenter; midMid.y = Ycenter; midMid.z = transform.position.z;
+        midRight.x = Xmax; midRight.y = Ycenter; midRight.z = transform.position.z;
 
-        botLeft.x = Xmin; botLeft.y = bounds.min.y + ghost.height; botLeft.z = transform.position.z;
-        botRight.x = bounds.max.x - ghost.width; botRight.y = bounds.min.y + ghost.height; botRight.z = transform.position.z;
+        botLeft.x = Xmin; botLeft.y = Ymin; botLeft.z = transform.position.z;
+        botMid.x = Xcenter; botMid.y = Ymin; botMid.z = transform.position.z;
+        botRight.x = Xmax; botRight.y = Ymin; botRight.z = transform.position.z;
+
+        List<Vector3> wanderingPoints = new()
+        {
+            topLeft,
+            topMid,
+            topRight,
+            midLeft,
+            midMid,
+            midRight,
+            botLeft,
+            botMid,
+            botRight
+        };
         
 
-        ghost.setWanderingPoints(topLeft, topRight, botRight, botLeft);
+        ghost.setWanderingPoints(wanderingPoints);
 
         ghost.setSpawnPosition(artifact.position);
     }

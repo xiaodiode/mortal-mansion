@@ -33,7 +33,7 @@ public class NormGhostAI : MonoBehaviour
 
     [SerializeField] public normGhostState currState {get; set;}
 
-    private bool deactivating = false;
+    // private bool deactivating = false;
 
     // Start is called before the first frame update
     void Start()
@@ -75,7 +75,7 @@ public class NormGhostAI : MonoBehaviour
     }
 
     public IEnumerator deactivate(){
-      deactivating = true;
+      // deactivating = true;
 
       while(currState != normGhostState.Idle){
         yield return null;
@@ -140,16 +140,20 @@ public class NormGhostAI : MonoBehaviour
       }
     }
 
-    public void setWanderingPoints(Vector3 topLeft, Vector3 topRight, Vector3 botRight, Vector3 botLeft){
-      wanderingBounds.Add(topLeft);
-      wanderingBounds.Add(topRight);
-      wanderingBounds.Add(botRight);
-      wanderingBounds.Add(botLeft);
+    public void setWanderingPoints(List<Vector3> pointsList){
+      wanderingBounds = pointsList;
 
       wanderingTarget.Add("top left");
+      wanderingTarget.Add("top mid");
       wanderingTarget.Add("top right");
-      wanderingTarget.Add("bottom right");
+
+      wanderingTarget.Add("mid left");
+      wanderingTarget.Add("mid mid");
+      wanderingTarget.Add("mid right");
+
       wanderingTarget.Add("bottom left");
+      wanderingTarget.Add("bottom mid");
+      wanderingTarget.Add("bottom right");
 
       currWanderingIndex = Random.Range(0, wanderingBounds.Count);
       currWanderingTarget = wanderingTarget[currWanderingIndex];
