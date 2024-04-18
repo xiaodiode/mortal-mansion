@@ -4,13 +4,20 @@ using UnityEngine;
 
 public class MansionController : MonoBehaviour
 {
-    [SerializeField] public List<Room> rooms = new();
+    [SerializeField] public PlayerController player;
+    [SerializeField] public List<Room> currRooms = new();
+    [SerializeField] private List<Room> roomTypes = new();
+    [SerializeField] private Room bedroom;
     [SerializeField] public int roomCount;
+    [SerializeField] private int bedroomFactor; // one bedroom every bedroomFactor number of rooms
+    [SerializeField] private Bed bed;
+
+    private int randRoomInd;
 
     // Start is called before the first frame update
     void Start()
     {
-        roomCount = rooms.Count;
+        roomCount = currRooms.Count;
     }
 
     // Update is called once per frame
@@ -20,10 +27,12 @@ public class MansionController : MonoBehaviour
     }
 
     public void addRoom(){
-        Room newRoom = new();
+        randRoomInd = Random.Range(0, roomTypes.Count);
+
+        Room newRoom = roomTypes[randRoomInd];
 
         newRoom.setupRoom();
-        rooms.Add(newRoom);
+        currRooms.Add(newRoom);
 
         roomCount++;
     }

@@ -61,7 +61,7 @@ public class Timer : MonoBehaviour
             //         player.levelsUnlocked+=1;
             // }
             // gameManager.gameOver();
-            dayController.switchCycles();
+            dayController.endCycle();
             resetTimer();
         }
 
