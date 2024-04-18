@@ -40,6 +40,8 @@ public class PlayerController : MonoBehaviour
         cameraZ = playerCamera.transform.position.z;
 
         lockMovement = false;
+
+        Debug.Log("Jaelynn was here");
     }
 
     // Update is called once per frame
