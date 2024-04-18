@@ -88,7 +88,6 @@ public class NormGhostAI : MonoBehaviour
 
       yield return new WaitForSeconds(5);
 
-
       Debug.Log("ghost is active now, will appear once room is entered");
     }
 

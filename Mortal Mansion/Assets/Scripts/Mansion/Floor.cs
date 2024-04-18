@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 using UnityEngine.Timeline;
@@ -81,15 +82,31 @@ public class Floor : MonoBehaviour
     private void setGhost(){
 
         // setting up ghost bounds
-        Vector3 topLeft, topRight, botRight, botLeft;
+        Vector3 topLeft, topMid, topRight, 
+            midLeft, midMid, midRight, 
+            botLeft, botMid, botRight;
+
+        float Xmin, Xmax, Ymin, Ymax;
+
+        Xmin = bounds.min.x + ghost.width;
+        Xmax = bounds.max.x - ghost.width;
+        Ymin = bounds.min.y + ghost.height;
+        Ymax = bounds.max.y - ghost.height;
 
         ghost.width = ghost.ghostCollider.bounds.size.x;
         ghost.height = ghost.ghostCollider.bounds.size.y;
 
-        topLeft.x = bounds.min.x + ghost.width; topLeft.y = bounds.max.y - ghost.height; topLeft.z = transform.position.z;
-        topRight.x = bounds.max.x - ghost.width; topRight.y = bounds.max.y - ghost.height; topRight.z = transform.position.z;
+        topLeft.x = Xmin; topLeft.y = Ymax; topLeft.z = transform.position.z;
+        topMid.x = (Xmax - Xmin)/2; topMid.y = Ymax; topMid.z = transform.position.z;
+        topRight.x = Xmax; topRight.y = Ymax; topRight.z = transform.position.z;
+
+        midLeft.x = Xmin; midLeft.y = (Ymax - Ymin)/2; midLeft.z = transform.position.z;
+        midMid.x = (Xmax - Xmin)/2; midMid.y = (Ymax - Ymin)/2; midMid.z = transform.position.z;
+        midRight.x = Xmax; midRight.y = (Ymax - Ymin)/2; midRight.z = transform.position.z;
+
+        botLeft.x = Xmin; botLeft.y = bounds.min.y + ghost.height; botLeft.z = transform.position.z;
         botRight.x = bounds.max.x - ghost.width; botRight.y = bounds.min.y + ghost.height; botRight.z = transform.position.z;
-        botLeft.x = bounds.min.x + ghost.width; botLeft.y = bounds.min.y + ghost.height; botLeft.z = transform.position.z;
+        
 
         ghost.setWanderingPoints(topLeft, topRight, botRight, botLeft);
 
