@@ -72,13 +72,6 @@ public class Floor : MonoBehaviour
         return randomPoint;
     }
 
-    public void enableGhost(bool enable){
-        if(enable){
-            ghost.ghostActive = true;
-            Debug.Log("attempt to set ghost active");
-        }
-    }
-
     private void setGhost(){
         // finding dimensions of ghost to prevent it from walking out of bounds
         ghost.width = ghost.ghostCollider.bounds.size.x;

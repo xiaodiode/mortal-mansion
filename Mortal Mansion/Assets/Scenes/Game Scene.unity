@@ -3835,7 +3835,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &998331150
 RectTransform:
   m_ObjectHideFlags: 0
@@ -4542,7 +4542,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &1275751130
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5267,7 +5267,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3ab7666ea1be7f149a8d799335c96fcd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  dayBase: 20
+  nightBase: 20
+  currDayTime: 0
+  currNightTime: 0
+  timeIncrement: 5
   isNight: 0
+  timer: {fileID: 2112981376}
   mansion: {fileID: 0}
 --- !u!4 &1472993072
 Transform:
@@ -8847,14 +8853,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: caa05abf8da128f4e9a0b0555c613f61, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dayBase: 20
-  nightBase: 90
-  currDayTime: 0
-  currNightTime: 0
-  timeIncrement: 5
-  dayController: {fileID: 1472993071}
   totalSeconds: 0
   timeUI: {fileID: 2112981377}
+  secondsStarted: 0
+  secondsLeft: 0
 --- !u!114 &2112981377
 MonoBehaviour:
   m_ObjectHideFlags: 0

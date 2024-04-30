@@ -3,16 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
-using Unity.VisualScripting;
 
 public class Timer : MonoBehaviour
 {
-    [Header("Time (in seconds) For Each Cycle")] 
-    [SerializeField] public int dayBase, nightBase;
-    [SerializeField] public int currDayTime, currNightTime;
-    [SerializeField] public int timeIncrement; // how many seconds to increment both timers after each round
-
-    [SerializeField] private DayController dayController; 
     [SerializeField] private int totalSeconds;
 
     [Header("UI Timer")]
@@ -22,7 +15,7 @@ public class Timer : MonoBehaviour
     private string timeText = "00:00:00";
     private bool countDown = false;
     private int minutes, seconds;
-    private int secondsStarted, secondsPassed;
+    public int secondsStarted, secondsLeft;
     
     // Start is called before the first frame update
     void Start()
@@ -30,12 +23,12 @@ public class Timer : MonoBehaviour
         leadingZeroM = "0";
         leadingZeroS = "0";
 
-        currDayTime = dayBase;
-        currNightTime = nightBase;
+        // currDayTime = dayBase;
+        // currNightTime = nightBase;
 
-        totalSeconds = currDayTime;
+        // totalSeconds = currDayTime;
 
-        startCountDown(); //delete this later. will need to start counting down after player starts game
+        // startCountDown(); //delete this later. will need to start counting down after player starts game
     }
 
     // Update is called once per frame
@@ -48,34 +41,22 @@ public class Timer : MonoBehaviour
     }
 
     public void updateTimerUI(){
-        secondsPassed = totalSeconds - (Mathf.FloorToInt(Time.time) - secondsStarted);
-        timeText = getTimeText(secondsPassed);
+        secondsLeft = totalSeconds - (Mathf.FloorToInt(Time.time) - secondsStarted);
+        timeText = getTimeText(secondsLeft);
 
         timeUI.text = timeText;
         
-        if(secondsPassed == 0){
-            // levelClear = true;
-            // if(player.selectedLevel == player.levelsUnlocked){
-            //     gemController.enableGemPopup("level");
-            //     if(player.selectedLevel != 101)
-            //         player.levelsUnlocked+=1;
-            // }
-            // gameManager.gameOver();
-            dayController.endCycle();
-            resetTimer();
-        }
+        // if(secondsPassed == 0){
+        //     dayController.endCycle();
+        //     resetTimer();
+        // }
 
-        
-        
-        
     }
 
-    public void increaseTime(){
-        currDayTime += timeIncrement;
-        currNightTime += timeIncrement;
-    }
 
-    public void startCountDown(){
+    public void startCountDown(int newTotalSeconds){
+        totalSeconds = newTotalSeconds;
+
         secondsStarted = Mathf.FloorToInt(Time.time);
         countDown = true;
     }
@@ -86,15 +67,17 @@ public class Timer : MonoBehaviour
     public void resumeTimer(){
         countDown = true;
     }
-    public void resetTimer(){
+    public void resetTimer(int newTotalSeconds){
         countDown = false;
         
-        if(dayController.isNight){
-            totalSeconds = currNightTime;
-        }
-        else{
-            totalSeconds = currDayTime;
-        }
+        // if(dayController.isNight){
+        //     totalSeconds = currNightTime;
+        // }
+        // else{
+        //     totalSeconds = currDayTime;
+        // }
+
+        totalSeconds = newTotalSeconds;
 
         // Debug.Log("Total seconds from reset: " + totalSeconds);
 
@@ -105,9 +88,6 @@ public class Timer : MonoBehaviour
 
     public int getTime(){
         return Mathf.FloorToInt(Time.time);
-    }
-    public int getGameTime(){
-        return secondsPassed;
     }
 
     private string getTimeText(int timeSeconds){

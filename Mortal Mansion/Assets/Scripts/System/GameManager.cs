@@ -52,10 +52,10 @@ public class GameManager : MonoBehaviour
         gameVolume.profile.TryGet(out gameVignette);
         systemVolume.profile.TryGet(out systemVignette);
 
-        // setupMainMenu();
-        // playCinema();
+        setupMainMenu();
+        playCinema();
         
-        // showMainMenu();
+        // showMainMenu(); // debugging
 
         // playGame(); // debugging
     }
@@ -137,7 +137,9 @@ public class GameManager : MonoBehaviour
 
         foreach(GameObject thing in objects){
             thing.SetActive(active);
+            Debug.Log("object: " + thing + " - active? "  + active);
         }
+
     }
 
     public void pressPlay(){
