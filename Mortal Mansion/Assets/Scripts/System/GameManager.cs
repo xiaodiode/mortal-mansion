@@ -35,11 +35,13 @@ public class GameManager : MonoBehaviour
 
     [Header("Gameplay")]
     [SerializeField] private List<GameObject> gameplayObjects;
+    [SerializeField] private GameObject gameUI;
+    [SerializeField] public ArtifactUI artifactUI;
+    [SerializeField] public GameObject pauseScreen;
     [SerializeField] private Volume gameVolume;
     [SerializeField] public Vignette gameVignette;
     [SerializeField] public DepthOfField gameBlur;
-    [SerializeField] public ArtifactUI artifactUI;
-    [SerializeField] public GameObject pauseScreen;
+    
 
 
     [Header("Systems")]
@@ -80,14 +82,16 @@ public class GameManager : MonoBehaviour
 
     public void pauseGame(bool paused){
         if(paused){
+            Time.timeScale = 0;
+            setActive(gameUI, false);
             enableBlur(true);
             setActive(pauseScreen, true);
-            Time.timeScale = 0;
         }
         else{
+            Time.timeScale = 1;
+            setActive(gameUI, true);
             enableBlur(false);
             setActive(pauseScreen, false);
-            Time.timeScale = 1;
         }
     }
 

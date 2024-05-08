@@ -12,12 +12,27 @@ public class MansionController : MonoBehaviour
     [SerializeField] private int bedroomFactor; // one bedroom every bedroomFactor number of rooms
     [SerializeField] private Bed bed;
 
+    
+    [SerializeField] private CoinController coinController;
+    [SerializeField] private Coins coinData;
+    [SerializeField] private GameObject coin;
+    [SerializeField] private int baseCoinsSpawned;
+
+
+    [SerializeField] private NormGhostAI normGhostAI;
+
     private int randRoomInd;
 
     // Start is called before the first frame update
     void Start()
     {
         roomCount = currRooms.Count;
+
+        if(baseCoinsSpawned > roomCount){
+            baseCoinsSpawned = roomCount;
+        }
+
+        // setupCoins();
     }
 
     // Update is called once per frame
@@ -36,4 +51,27 @@ public class MansionController : MonoBehaviour
 
         roomCount++;
     }
+
+    // private void setupCoins(){
+    //     GameObject newCoin;
+    //     coinController.totalCoins = 0;
+
+        
+
+
+    //     foreach(Room room in currRooms){
+    //         Debug.Log("floor: " + room.floor + "| coinData.width, coinData.height: " + coinData.width + ", " + coinData.height + " | coin: " + coin);
+    //         newCoin = room.floor.createAtRandomPosition(coinData.width, coinData.height, coin);
+    //         coinController.coins.Add(newCoin);
+    //         coinController.totalCoins++;
+
+    //         NormGhostAI newGhost = new();
+    //         newGhost = normGhostAI;
+    //         room.floor.ghost = newGhost;
+    //         room.floor.setGhost();
+    //     }
+
+    //     coinController.updateCoinsUI();
+
+    // }
 }

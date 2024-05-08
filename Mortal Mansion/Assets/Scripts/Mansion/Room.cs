@@ -7,6 +7,7 @@ using UnityEngine.AI;
 public class Room : MonoBehaviour
 {
     [SerializeField] public PlayerController player;
+    [SerializeField] public Floor floor;
     [SerializeField] public NavMeshModifier floorNavMesh;
     [SerializeField] public NavMeshModifier obstacleNavMesh;
     [SerializeField] public NavMeshModifier doorNavMesh;

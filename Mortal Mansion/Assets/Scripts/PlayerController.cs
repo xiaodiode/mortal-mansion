@@ -70,6 +70,7 @@ public class PlayerController : MonoBehaviour
     }
 
     public void OnResume(){
+        Debug.Log("resuming game");
         gameManager.pauseGame(false);
     }
 
