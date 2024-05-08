@@ -22,9 +22,7 @@ public class Floor : MonoBehaviour
     {
         bounds = floorCollider.bounds;
 
-        artifact.setPosition(setRandomPosition(artifact.width, artifact.height, artifact.sprite));
-        
-        setGhost();
+        StartCoroutine(setupFloorObject());
 
         // enableGhost(true);
         daytime = false;
@@ -37,6 +35,21 @@ public class Floor : MonoBehaviour
     void Update()
     {
         
+    }
+
+    private IEnumerator setupFloorObject(){
+        while(!artifact.artifactReady){
+            yield return null;
+        }
+
+        artifact.setPosition(setRandomPosition(artifact.width, artifact.height, artifact.artifactObject));
+        // spawnAtPosition(artifact.position, artifact.artifactObject);
+
+
+        ghost.setSpawnPosition(artifact.position);
+        // spawnAtPosition(ghost.spawnPosition, ghost.ghostObject);
+
+        setGhost();
     }
 
     private void OnTriggerEnter2D(Collider2D collision){
@@ -64,13 +77,15 @@ public class Floor : MonoBehaviour
         Debug.Log("random point generated: " + randomPoint + " with x bounds between " + (bounds.min.x + targetWidth/2) + " and " + (bounds.max.x - targetWidth/2)
                        + " and y bounds between " + (bounds.min.y + targetHeight/2) + " and " + (bounds.max.y - targetHeight/2) + ": " + randomPoint);
 
-        GameObject newObject = Instantiate(sprite, Vector3.zero, Quaternion.identity);
-        newObject.transform.parent = transform;
-        randomPoint.z = transform.position.z;
-        newObject.transform.position = randomPoint;
-
         return randomPoint;
     }
+
+    // public void spawnAtPosition(Vector3 newPosition, GameObject sprite){
+    //     GameObject newObject = Instantiate(sprite, Vector3.zero, Quaternion.identity);
+    //     newObject.transform.parent = transform;
+    //     newPosition.z = transform.position.z;
+    //     newObject.transform.position = newPosition;
+    // }
 
     private void setGhost(){
         // finding dimensions of ghost to prevent it from walking out of bounds
@@ -121,7 +136,7 @@ public class Floor : MonoBehaviour
 
         ghost.setWanderingPoints(wanderingPoints);
 
-        ghost.setSpawnPosition(artifact.position);
+        // ghost.setSpawnPosition(artifact.position);
     }
 
 }

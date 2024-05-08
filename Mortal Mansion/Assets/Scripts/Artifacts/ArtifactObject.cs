@@ -7,17 +7,21 @@ using UnityEngine;
 public class ArtifactObject : MonoBehaviour
 {
     [SerializeField] public PlayerController player;
-    [SerializeField] public GameObject sprite;
+    [SerializeField] public GameObject artifactObject;
     [SerializeField] public Collider2D artifactCollider;
     [SerializeField] public float width, height;
     [SerializeField] public Vector3 position;
+    [SerializeField] public bool artifactReady;
 
     // Start is called before the first frame update
     void Start()
     {
+        artifactReady = false; 
+
         width = artifactCollider.bounds.size.x;
         height = artifactCollider.bounds.size.y;
 
+        artifactReady = true;
     }
 
     // Update is called once per frame
@@ -42,5 +46,7 @@ public class ArtifactObject : MonoBehaviour
 
     public void setPosition(Vector3 newPosition){
         position = newPosition;
+
+        transform.position = position;
     }
 }

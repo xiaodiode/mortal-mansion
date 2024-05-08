@@ -17,12 +17,14 @@ public class NormGhostAI : MonoBehaviour
     [SerializeField] private NavMeshAgent ghostAgent;
     [SerializeField] public Collider2D ghostCollider;
     [SerializeField] public float width, height;
+    [SerializeField] public GameObject ghostObject;
     [SerializeField] private SpriteRenderer ghostSprite;
-    [SerializeField] private Vector3 spawnPosition;
+    [SerializeField] public Vector3 spawnPosition;
 
     [SerializeField] private float activateDelay;
     [SerializeField] public bool ghostActive;
     [SerializeField] public bool inactiveReady;
+    [SerializeField] public bool ghostDataReady;
 
 
     // top left, top right, bottom right, bottom left
@@ -162,7 +164,7 @@ public class NormGhostAI : MonoBehaviour
     public void setSpawnPosition(Vector3 position){
       spawnPosition = position;
 
-      gameObject.transform.position = spawnPosition;
+      transform.position = spawnPosition;
     }
 
     void OnTriggerEnter2D(Collider2D collision){
