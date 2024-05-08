@@ -28,7 +28,7 @@ public class Timer : MonoBehaviour
 
         // totalSeconds = currDayTime;
 
-        // startCountDown(); //delete this later. will need to start counting down after player starts game
+        startCountDown(15); //delete this later. will need to start counting down after player starts game
     }
 
     // Update is called once per frame

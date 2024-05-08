@@ -64,6 +64,15 @@ public class PlayerController : MonoBehaviour
         gameManager.artifactUI.updateArtifact();
     }
 
+    private void OnPauseGame(){
+        Debug.Log("pausing game");
+        gameManager.pauseGame(true);
+    }
+
+    public void OnResume(){
+        gameManager.pauseGame(false);
+    }
+
     private void move(){
         verticalInput = Input.GetAxis("Vertical");
         horizontalInput = Input.GetAxis("Horizontal");

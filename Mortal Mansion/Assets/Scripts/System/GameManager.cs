@@ -37,7 +37,9 @@ public class GameManager : MonoBehaviour
     [SerializeField] private List<GameObject> gameplayObjects;
     [SerializeField] private Volume gameVolume;
     [SerializeField] public Vignette gameVignette;
+    [SerializeField] public DepthOfField gameBlur;
     [SerializeField] public ArtifactUI artifactUI;
+    [SerializeField] public GameObject pauseScreen;
 
 
     [Header("Systems")]
@@ -51,6 +53,10 @@ public class GameManager : MonoBehaviour
     {
         
         gameVolume.profile.TryGet(out gameVignette);
+        gameVolume.profile.TryGet(out gameBlur);
+
+        enableBlur(false);
+
         systemVolume.profile.TryGet(out systemVignette);
 
         // setupMainMenu();
@@ -60,13 +66,44 @@ public class GameManager : MonoBehaviour
         // showMainMenu(); // debugging
         setActive(mainMenuObjects, false);
         setActive(gameplayObjects, true);
+        setActive(pauseScreen, false);
         playGame(); // debugging
+
+        // StartCoroutine(testing());
     }
 
     // Update is called once per frame
     void Update()
     {
         
+    }
+
+    public void pauseGame(bool paused){
+        if(paused){
+            enableBlur(true);
+            setActive(pauseScreen, true);
+            Time.timeScale = 0;
+        }
+        else{
+            enableBlur(false);
+            setActive(pauseScreen, false);
+            Time.timeScale = 1;
+        }
+    }
+
+    public void enableBlur(bool enable){
+        gameBlur.active = enable;
+    }
+
+
+    private IEnumerator testing(){
+        yield return new WaitForSeconds(3);
+
+        enableBlur(true);
+
+        yield return new WaitForSeconds(3);
+
+        enableBlur(false);
     }
 
     public void playCinema(){
@@ -136,11 +173,15 @@ public class GameManager : MonoBehaviour
         mainMenuBG.localScale = Vector3.one;
     }
 
+    public void setActive(GameObject obj, bool active){
+        obj.SetActive(active);
+    }
+
     public void setActive(List<GameObject> objects, bool active){
 
         foreach(GameObject thing in objects){
             thing.SetActive(active);
-            Debug.Log("object: " + thing + " - active? "  + active);
+            // Debug.Log("object: " + thing + " - active? "  + active);
         }
 
     }

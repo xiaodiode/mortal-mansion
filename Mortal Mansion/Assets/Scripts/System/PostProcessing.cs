@@ -18,6 +18,7 @@ public class PostProcessing : MonoBehaviour
     [SerializeField] [Range(0, 0.49f)] public float mm_minIntensity; //0.14
     [SerializeField] public float mm_vignDuration;
 
+
     // private Vignette vignette;
 
     // Start is called before the first frame update
