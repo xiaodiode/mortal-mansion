@@ -123,7 +123,7 @@ public class NormGhostAI : MonoBehaviour
         currWanderingIndex = Random.Range(0, wanderingBounds.Count);
         currWanderingTarget = wanderingTarget[currWanderingIndex];
 
-        Debug.Log("new target is: " + currWanderingTarget);
+        // Debug.Log("new target is: " + currWanderingTarget);
       }
     }
 
@@ -168,7 +168,7 @@ public class NormGhostAI : MonoBehaviour
     void OnTriggerEnter2D(Collider2D collision){
       if(ghostActive){
         if(collision.gameObject == player.gameObject){
-              Debug.Log("ghost touched player");
+              // Debug.Log("ghost touched player");
           }  
       }
         

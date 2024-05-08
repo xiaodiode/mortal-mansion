@@ -1,11 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
 
-public class Artifact : MonoBehaviour
+public class ArtifactObject : MonoBehaviour
 {
-    [SerializeField] public GameObject player;
+    [SerializeField] public PlayerController player;
     [SerializeField] public GameObject sprite;
     [SerializeField] public Collider2D artifactCollider;
     [SerializeField] public float width, height;
@@ -16,6 +17,7 @@ public class Artifact : MonoBehaviour
     {
         width = artifactCollider.bounds.size.x;
         height = artifactCollider.bounds.size.y;
+
     }
 
     // Update is called once per frame
@@ -25,8 +27,16 @@ public class Artifact : MonoBehaviour
     }
 
     void OnTriggerEnter2D(Collider2D collision){
-        if(collision.gameObject == player){
+        if(collision.gameObject == player.gameObject){
             Debug.Log("artifact touched");
+            player.artifactTouched = true;
+        }
+    }
+
+    void OnTriggerExit2D(Collider2D collision){
+        if(collision.gameObject == player.gameObject){
+            Debug.Log("artifact out of range");
+            player.artifactTouched = false;
         }
     }
 

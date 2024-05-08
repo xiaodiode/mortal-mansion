@@ -37,6 +37,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private List<GameObject> gameplayObjects;
     [SerializeField] private Volume gameVolume;
     [SerializeField] public Vignette gameVignette;
+    [SerializeField] public ArtifactUI artifactUI;
 
 
     [Header("Systems")]
@@ -57,8 +58,8 @@ public class GameManager : MonoBehaviour
         
         /* Comment out the lines below to only display game */
         // showMainMenu(); // debugging
-        // setActive(mainMenuObjects, false);
-        // setActive(gameplayObjects, true);
+        setActive(mainMenuObjects, false);
+        setActive(gameplayObjects, true);
         playGame(); // debugging
     }
 

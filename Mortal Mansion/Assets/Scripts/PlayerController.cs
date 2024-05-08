@@ -19,6 +19,10 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float visionTotal;
     [SerializeField] private float sensingTotal;
 
+    [SerializeField] public bool artifactTouched;
+
+    [SerializeField] private GameManager gameManager;
+
 
     private float verticalInput, horizontalInput;
     private Vector3 cameraPosition;
@@ -40,12 +44,24 @@ public class PlayerController : MonoBehaviour
         cameraZ = playerCamera.transform.position.z;
 
         lockMovement = false;
+
+        artifactTouched = false;
     }
 
     // Update is called once per frame
     void Update()
     {
         move();
+
+    }
+
+    private void OnInteractArtifact(){
+        if(artifactTouched){
+            gameManager.artifactUI.toggleArtifact();
+        }
+    }
+    private void OnNextArtifact(){
+        gameManager.artifactUI.updateArtifact();
     }
 
     private void move(){

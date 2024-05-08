@@ -11,7 +11,7 @@ public class Floor : MonoBehaviour
     [SerializeField] public bool isBedroom;
     [SerializeField] public bool daytime;
     [SerializeField] public TilemapCollider2D floorCollider;
-    [SerializeField] private Artifact artifact; 
+    [SerializeField] private ArtifactObject artifact; 
     [SerializeField] private NormGhostAI ghost;
     [SerializeField] private GameObject hidingSpot;
     [SerializeField] private Bounds bounds;

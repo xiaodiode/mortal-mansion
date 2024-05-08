@@ -2,8 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System.IO;
-using UnityEditor.Build.Content;
-using Unity.VisualScripting;
 
 public class DataLoader : MonoBehaviour
 {
@@ -17,7 +15,10 @@ public class DataLoader : MonoBehaviour
     [Space(10)]
     [Header("Artifacts")]
     [SerializeField] public bool artifactDataReady = false;
-    [SerializeField] public Dictionary<string, string> artifactLore = new();
+    [SerializeField] public List<string> artifactWriter;
+    [SerializeField] public List<string> artifactDate;
+    [SerializeField] public List<string> artifactContent;
+    // [SerializeField] public Dictionary<string, string> artifactLore = new();
 
     [Header("Cinema")]
     [SerializeField] public bool cinemaDataReady = false;
@@ -26,7 +27,8 @@ public class DataLoader : MonoBehaviour
 
     private StringReader fileReader;
     private string fileLine;
-    private string subject = "";
+    private string writer = "";
+    private string date = "";
     private string content = "";
 
     // Start is called before the first frame update
@@ -50,20 +52,24 @@ public class DataLoader : MonoBehaviour
         while((fileLine = fileReader.ReadLine()) != null){
             fileLine = fileLine.Trim();
 
-            if(fileLine.Contains("writer")){
+            if(fileLine.Contains("date")){
 
-                subject = fileLine.Replace("writer", "").Trim();
-                // Debug.Log("dataSection: " + dataSection);
+                writer = fileLine.Replace("date", "").Trim();
+                artifactDate.Add(writer);
             }
             else if(fileLine.Contains("content")){
                 content = fileLine.Replace("content", "").Trim();
 
-                artifactLore.Add(subject, content);
+                artifactContent.Add(content);
+            }
+            else if(fileLine.Contains("writer")){
+                writer = fileLine.Replace("writer", "").Trim();
+                artifactWriter.Add(writer);
             }
 
         }
 
-        debugDictionary(false, null, artifactLore);
+        // debugDictionary(false, null, artifactLore);
 
         artifactDataReady = true;
     }
