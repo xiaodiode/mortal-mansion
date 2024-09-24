@@ -61,15 +61,15 @@ public class GameManager : MonoBehaviour
 
         systemVolume.profile.TryGet(out systemVignette);
 
-        // setupMainMenu();
-        // playCinema();
+        setupMainMenu();
+        playCinema();
         
         /* Comment out the lines below to only display game */
         // showMainMenu(); // debugging
-        setActive(mainMenuObjects, false);
-        setActive(gameplayObjects, true);
+        // setActive(mainMenuObjects, false);
+        // setActive(gameplayObjects, true);
         setActive(pauseScreen, false);
-        playGame(); // debugging
+        // playGame(); // debugging
 
         // StartCoroutine(testing());
     }

@@ -73,7 +73,7 @@ public class Floor : MonoBehaviour
         
         randomPoint.x = Random.Range(bounds.min.x + targetWidth/2, bounds.max.x - targetWidth/2);
         randomPoint.y = Random.Range(bounds.min.y + targetHeight/2, bounds.max.y - targetHeight/2);
-
+        Debug.Log("bounds.min.x: " + bounds.min.x + ", bounds.max.x: " + bounds.max.x);
         Debug.Log("random point generated: " + randomPoint + " with x bounds between " + (bounds.min.x + targetWidth/2) + " and " + (bounds.max.x - targetWidth/2)
                        + " and y bounds between " + (bounds.min.y + targetHeight/2) + " and " + (bounds.max.y - targetHeight/2) + ": " + randomPoint);
 
